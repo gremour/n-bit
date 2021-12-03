@@ -1,0 +1,11 @@
+name: spr
+file: cat.png
+sprites:
+- width: 320
+  height: 200
+  xoffs: 0
+  yoffs: 0
+  xorig: 0
+  yorig: 0
+  names:
+  - one
