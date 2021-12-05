@@ -98,6 +98,12 @@ func (r *Rasterizer) DrawTriangle(ti TriangleInfo) {
 	if ti.Shader == nil {
 		panic("Rasterizer.DrawTriangle: shader is not set")
 	}
+	if ti.Lights == nil {
+		panic("Rasterizer.DrawTriangle: lights is not set")
+	}
+	if ti.Indexizer == nil {
+		panic("Rasterizer.DrawTriangle: indexizer is not set")
+	}
 
 	if ti.ChunkBits == 0 {
 		ti.ChunkBits = 3

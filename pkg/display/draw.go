@@ -57,8 +57,8 @@ func (d *Display) drawSpriteAdvanced(s *Sprite, o DrawSpriteOpts) {
 			Indexizer: d.Indexizer,
 			Lights:    d.Lights,
 		},
-		X: o.DX,
-		Y: o.DY,
+		X: o.DX - float64(s.XOrigin),
+		Y: o.DY - float64(s.YOrigin),
 		W: o.DW,
 		H: o.DH,
 	}

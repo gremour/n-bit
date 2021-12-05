@@ -92,6 +92,12 @@ func (r *Rasterizer) DrawRectangle(ri RectangleInfo) {
 	if ri.Shader == nil {
 		panic("Rasterizer.DrawRectangle: shader is not set")
 	}
+	if ri.Lights == nil {
+		panic("Rasterizer.DrawRectangle: lights is not set")
+	}
+	if ri.Indexizer == nil {
+		panic("Rasterizer.DrawRectangle: indexizer is not set")
+	}
 
 	if ri.ChunkBits == 0 {
 		ri.ChunkBits = 3
