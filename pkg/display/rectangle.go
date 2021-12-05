@@ -26,6 +26,9 @@ type RectangleRasterInput struct {
 	Lights Lights
 	// Object to convert to index color.
 	Indexizer Indexizer
+
+	// Any other data to pass to shader.
+	Extra interface{}
 }
 
 // RectangleRasterStatic part of options including input and precalculated for the whole triangle.

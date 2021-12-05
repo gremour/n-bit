@@ -21,6 +21,14 @@ type TriangleRasterInput struct {
 
 	// Raster chunks size (in bits, e.g. 3 bits = 8 pixels).
 	ChunkBits int
+
+	// Lights model.
+	Lights Lights
+	// Object to convert to index color.
+	Indexizer Indexizer
+
+	// Any other data to pass to shader.
+	Extra interface{}
 }
 
 // TriangleRasterStatic part of options including input and precalculated for the whole triangle.
@@ -34,11 +42,6 @@ type TriangleRasterStatic struct {
 
 	// 1 / area.
 	InvArea float64
-
-	// Lights model.
-	Lights Lights
-	// Object to convert to index color.
-	Indexizer Indexizer
 }
 
 // TriangleShaderOpts options for shader.
