@@ -15,7 +15,7 @@ import (
 // Game implements ebiten.Game interface.
 type Game struct {
 	Display   display.Display
-	Lights    display.LightSet
+	Lights    display.Lights
 	DeltaTime float64
 
 	lights []*light
@@ -103,7 +103,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	pname := "painted-leather" //display.RandomPalette2BitName()
+	pname := "pastel" //display.RandomPalette2BitName()
 	pal := display.Palettes2Bit[pname]
 	if pal == nil {
 		log.Fatalf("Palette %v is not found", pname)
@@ -113,14 +113,15 @@ func main() {
 			Palette:   pal,
 			Indexizer: display.Bits2,
 		},
-		Lights: display.LightSet{
+		// Lights: display.FullLight,
+		Lights: &display.LightSet{
 			MinScale:  0.2,
-			MaxScale:  1.0,
+			MaxScale:  1,
 			MinOffset: 0,
 			MaxOffset: 1,
 		},
 	}
-	g.Display.Lights = &g.Lights
+	g.Display.Lights = g.Lights
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -138,13 +139,20 @@ func main() {
 			l.sy = -l.sy
 		}
 		g.lights = append(g.lights, l)
-		g.Lights.TrackCircle(l, 0.7+rand.Float64()*0.5, 50+30*rand.Float64())
+		ls, ok := g.Lights.(*display.LightSet)
+		if ok {
+			ls.TrackCircle(l, 0.7+rand.Float64()*0.5, 50+30*rand.Float64())
+		}
 	}
 
 	ebiten.SetWindowTitle("n-bit engine")
 	ebiten.SetFullscreen(true)
 
 	err := g.Display.LoadAtlas("spr.yaml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = g.Display.LoadAtlas("ch.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -72,7 +72,7 @@ func IndexedImageFromImage(img image.Image, o FromImageOpts) IndexedImage {
 		} else if intensity < 0 {
 			intensity = 0
 		}
-		iim.Pixels[i] = byte(intensity*(float64(o.Colors+1))) + 1
+		iim.Pixels[i] = byte(intensity * (float64(o.Colors + 1)))
 	}
 	return iim
 }

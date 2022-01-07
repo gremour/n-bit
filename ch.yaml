@@ -1,0 +1,11 @@
+name: ch
+file: cheq.png
+sprites:
+- width: 8
+  height: 8
+  xoffs: 16
+  yoffs: 16
+  xorig: 0
+  yorig: 0
+  names:
+  - q

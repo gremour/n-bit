@@ -35,7 +35,7 @@ type RectangleRasterInput struct {
 type RectangleRasterStatic struct {
 	RectangleRasterInput
 
-	// Percentage step per pixel.
+	// Percentage texture coords step per pixel.
 	Pxs, Pys float64
 }
 
@@ -46,7 +46,7 @@ type RectangleShaderOpts struct {
 	// Cooridnates in buffer, pixels.
 	X, Y float64
 
-	// Percentage coords.
+	// Percentage texture coords origin.
 	Px, Py float64
 
 	// Offset in buffer, pixels. Equal to int(x) + int(y) * BufferWidth.
@@ -93,7 +93,7 @@ func (r *Rasterizer) DrawRectangle(ri RectangleInfo) {
 		panic("Rasterizer.DrawRectangle: shader is not set")
 	}
 	if ri.Lights == nil {
-		panic("Rasterizer.DrawRectangle: lights is not set")
+		panic("Rasterizer.DrawRectangle: lights are not set")
 	}
 	if ri.Indexizer == nil {
 		panic("Rasterizer.DrawRectangle: indexizer is not set")
@@ -123,12 +123,21 @@ func (r *Rasterizer) DrawRectangle(ri RectangleInfo) {
 	}
 
 	// Rounded to nearest pixel coords.
-	sm := 1 - math.SmallestNonzeroFloat64
+	sm := 0.5 //1 - math.SmallestNonzeroFloat64
 	x, y := math.Floor(ri.X+sm), math.Floor(ri.Y+sm)
 	w, h := math.Floor(ri.W), math.Floor(ri.H)
 
 	rs.Pxs = 1 / w
 	rs.Pys = 1 / h
+
+	// Initial texture position.
+	var pxd, pyd float64
+	if x < 0 {
+		pxd = -ri.X * ri.W * rs.Pxs
+	}
+	if y < 0 {
+		pyd = -ri.Y * ri.H * rs.Pys
+	}
 
 	// Clip.
 	minX := math.Max(x, 0)
@@ -148,9 +157,9 @@ func (r *Rasterizer) DrawRectangle(ri RectangleInfo) {
 
 	var wg sync.WaitGroup
 
-	var py float64
+	py := pyd
 	for y := minY; y < maxY; y += chunkSizef {
-		var px float64
+		px := pxd
 		boffs := boffso
 		chunkHeight := maxY - y
 		if chunkHeight > chunkSizef {

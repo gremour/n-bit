@@ -99,7 +99,7 @@ func (r *Rasterizer) DrawTriangle(ti TriangleInfo) {
 		panic("Rasterizer.DrawTriangle: shader is not set")
 	}
 	if ti.Lights == nil {
-		panic("Rasterizer.DrawTriangle: lights is not set")
+		panic("Rasterizer.DrawTriangle: lights are not set")
 	}
 	if ti.Indexizer == nil {
 		panic("Rasterizer.DrawTriangle: indexizer is not set")
