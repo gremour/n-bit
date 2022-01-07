@@ -133,10 +133,10 @@ func (r *Rasterizer) DrawRectangle(ri RectangleInfo) {
 	// Initial texture position.
 	var pxd, pyd float64
 	if x < 0 {
-		pxd = -ri.X * ri.W * rs.Pxs
+		pxd = -x * rs.Pxs
 	}
 	if y < 0 {
-		pyd = -ri.Y * ri.H * rs.Pys
+		pyd = -y * rs.Pys
 	}
 
 	// Clip.
